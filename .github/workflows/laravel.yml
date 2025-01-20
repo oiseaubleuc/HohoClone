@@ -44,12 +44,11 @@ jobs:
           php artisan key:generate
 
       # Stap 6: Database instellen
-      - name: Set up SQLite database
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
-          php artisan config:cache
-          php artisan migrate --force
+      - name: Debug SQLite database
+      - run: ls -la database
+      - name: Debug migrations
+      - run: php artisan migrate:status
+
 
       # Stap 7: Testen uitvoeren
       - name: Run Laravel tests
@@ -64,3 +63,4 @@ jobs:
         with:
           name: test-results
           path: storage/logs/laravel.log
+
