@@ -22,11 +22,11 @@ class PostController extends Controller
             ]);
 
             Post::create([
-                'content' => $request->Content,
+                'content' => $request->input ('content'),
                 'user_id' => auth()->id(),
             ]);
 
-            return redirect()->back();
+            return redirect()->route('dashboard');
         }
 
 }

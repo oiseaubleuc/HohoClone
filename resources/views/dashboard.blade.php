@@ -1,53 +1,73 @@
 <x-app-layout>
-    <nav class="bg-gray-900 text-white px-4 py-2 flex justify-between items-center">
-        <div class="flex items-center space-x-4">
-            <a href="{{ route('dashboard') }}" class="text-lg font-bold hover:text-blue-500">Home</a>
-            <a href="{{ route('profile.edit') }}" class="text-lg hover:text-blue-500">Profile</a>
-        </div>
-    </nav>
+    <div class="container-fluid p-0">
+        <!-- Sidebar -->
+        <div class="d-flex">
+            <nav class="bg-dark text-white vh-100" style="width: 250px;">
+                <div class="p-4">
+                    <h4 class="text-white mb-4">Laravel</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2">
+                            <a href="{{ route('dashboard') }}" class="nav-link text-white">
+                                <i class="bi bi-house-door-fill"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="{{ route('profile.edit') }}" class="nav-link text-white">
+                                <i class="bi bi-person-fill"></i> Profile
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <form action="{{ route('posts.store') }}" method="POST">
+                                @csrf
+                                <textarea name="content" required></textarea>
+                                <button type="submit">Post</button>
+                            </form>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            @auth
-
-                <div class="bg-white dark:bg-gray-800 p-6 shadow-sm rounded-lg mb-6">
-                    <form action="{{ route('posts.store') }}" method="POST">
-                        @csrf
-                        <textarea
-                            name="content"
-                            class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                            rows="3"
-                            placeholder="What's on your mind?"
-                            required></textarea>
-                        <button type="submit" class="mt-3 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                            Post
-                        </button>
-
-
-
-                    </form>
+                        </li>
+                    </ul>
                 </div>
+            </nav>
 
-                @forelse ($posts as $post)
-                    <div class="bg-white dark:bg-gray-800 p-4 shadow-sm rounded-lg mb-4">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 bg-gray-300 dark:bg-gray-700 rounded-full"></div>
-                            <div class="ml-4">
-                                <h4 class="font-bold">{{ $post->user->name }}</h4>
-                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ $post->created_at->diffForHumans() }}</span>
+            <!-- Main Content -->
+            <div class="w-100 p-4 bg-light">
+                @auth
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form action="{{ route('posts.store') }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                <textarea
+                                    name="content"
+                                    class="form-control"
+                                    rows="3"
+                                    placeholder="What's on your mind?"
+                                    required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Post</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    @forelse ($posts as $post)
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="rounded-circle bg-secondary" style="width: 50px; height: 50px;"></div>
+                                    <div class="ms-3">
+                                        <h5 class="mb-0">{{ $post->user->name }}</h5>
+                                        <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
+                                    </div>
+                                </div>
+                                <p>{{ $post->content }}</p>
                             </div>
                         </div>
-                        <p class="mt-2 dark:text-gray-100">{{ $post->content }}</p>
-                    </div>
-                @empty
-                    <p class="text-center text-gray-500 dark:text-gray-400">No posts yet.</p>
-                @endforelse
-            @else
-
-                <div class="bg-red-500 text-white p-4 rounded-lg text-center">
-                    Please log in to post and view content.
-                </div>
-            @endauth
+                    @empty
+                        <div class="text-center text-muted">No posts yet.</div>
+                    @endforelse
+                @else
+                    <div class="alert alert-warning text-center">Please log in to post and view content.</div>
+                @endauth
+            </div>
         </div>
     </div>
 </x-app-layout>
