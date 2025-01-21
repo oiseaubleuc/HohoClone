@@ -2,20 +2,20 @@ name: Laravel CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ] # Start de workflow bij elke push naar de main-branch
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" ] # Start de workflow bij elke pull request naar de main-branch
 
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
 
     steps:
-      # Stap 1: Repository ophalen
+      # Stap 1: Haal de code van de repository op
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Stap 2: PHP configureren
+      # Stap 2: Stel PHP in
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -23,19 +23,11 @@ jobs:
           extensions: mbstring, pdo_sqlite, bcmath
           ini-values: post_max_size=256M, upload_max_filesize=256M
 
-      # Stap 3: Composer-afhankelijkheden cachen
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: composer-${{ hashFiles('composer.lock') }}
-          restore-keys: composer-
-
-      # Stap 4: Composer installeren
+      # Stap 3: Installeer Composer afhankelijkheden
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist
 
-      # Stap 5: .env-bestand instellen
+      # Stap 4: Maak een .env-bestand aan
       - name: Set up .env file
         run: |
           echo "APP_NAME=Laravel" > .env
@@ -49,7 +41,7 @@ jobs:
           echo "QUEUE_CONNECTION=sync" >> .env
           echo "SESSION_DRIVER=file" >> .env
 
-      # Stap 6: SQLite-database instellen
+      # Stap 5: Stel een SQLite-database in
       - name: Set up SQLite database
         run: |
           mkdir -p database
@@ -57,22 +49,14 @@ jobs:
           php artisan config:cache
           php artisan migrate --force
 
-      # Stap 7: Debug SQLite-database
-      - name: Debug SQLite database
-        run: ls -la database/
-
-      # Stap 8: Debug migratiestatus
-      - name: Check migration status
-        run: php artisan migrate:status
-
-      # Stap 9: Laravel-tests uitvoeren
+      # Stap 6: Testen uitvoeren
       - name: Run Laravel tests
         env:
           DB_CONNECTION: sqlite
-          DB_DATABASE=database/database.sqlite:
-        run: php artisan test || true
+          DB_DATABASE: database/database.sqlite
+        run: php artisan test
 
-      # Stap 10: Testresultaten uploaden
+      # Stap 7: Testresultaten uploaden (optioneel)
       - name: Upload test results
         uses: actions/upload-artifact@v3
         with:
