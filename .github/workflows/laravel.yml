@@ -19,9 +19,11 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.2'
           extensions: mbstring, pdo_sqlite, bcmath
-          ini-values: post_max_size=256M, upload_max_filesize=256M
+          ini-values: |
+            post_max_size=256M
+            upload_max_filesize=256M
 
       # Stap 3: Installeer Composer afhankelijkheden
       - name: Install Composer dependencies
@@ -32,7 +34,7 @@ jobs:
         run: |
           echo "APP_NAME=Laravel" > .env
           echo "APP_ENV=local" >> .env
-          echo "APP_KEY=base64:$(php artisan key:generate --show)" >> .env
+          echo "APP_KEY=$(php artisan key:generate --show)" >> .env
           echo "APP_DEBUG=true" >> .env
           echo "APP_URL=http://localhost" >> .env
           echo "DB_CONNECTION=sqlite" >> .env
@@ -58,6 +60,7 @@ jobs:
 
       # Stap 7: Testresultaten uploaden (optioneel)
       - name: Upload test results
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: Test Results
