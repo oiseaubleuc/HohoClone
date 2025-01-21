@@ -58,10 +58,10 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: php artisan test
 
-      # Stap 7: Testresultaten uploaden (optioneel)
+      # Stap 7: Testresultaten uploaden
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Test Results
           path: storage/logs/laravel.log
