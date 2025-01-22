@@ -3,7 +3,6 @@ name: Laravel CI/CD Pipeline
 on:
   push:
     branches:
-      - main
       - dev
       - test
       - production
