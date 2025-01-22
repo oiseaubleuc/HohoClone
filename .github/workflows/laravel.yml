@@ -2,67 +2,39 @@ name: Laravel CI
 
 on:
   push:
-    branches: [ "main" ] # Start de workflow bij elke push naar de main-branch
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ] # Start de workflow bij elke pull request naar de main-branch
+    branches:
+      - main
 
 jobs:
-  laravel-tests:
-    runs-on: ubuntu-22.04
-
+  build-and-test:
+    runs-on: ubuntu-latest
 
     steps:
-      # Stap 1: Haal de code van de repository op
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      # Stap 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # Stap 2: Stel PHP in
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: mbstring, pdo_sqlite, bcmath
-          ini-values: |
-            post_max_size=256M
-            upload_max_filesize=256M
+      # Stap 2: Stel Docker Compose in
+      - name: Set up Docker Compose
+        run: docker-compose up -d --build
 
-      # Stap 3: Installeer Composer afhankelijkheden
-      - name: Install Composer dependencies
-        run: composer install --no-progress --prefer-dist
+      # Stap 3: Wacht tot containers klaar zijn
+      - name: Wait for services
+        run: sleep 10
 
-      # Stap 4: Maak een .env-bestand aan
-      - name: Set up .env file
+      # Stap 4: Maak database aan en voer migraties uit
+      - name: Prepare database
         run: |
-          echo "APP_NAME=Laravel" > .env
-          echo "APP_ENV=local" >> .env
-          echo "APP_KEY=$(php artisan key:generate --show)" >> .env
-          echo "APP_DEBUG=true" >> .env
-          echo "APP_URL=http://localhost" >> .env
-          echo "DB_CONNECTION=sqlite" >> .env
-          echo "DB_DATABASE=database/database.sqlite" >> .env
-          echo "CACHE_STORE=file" >> .env
-          echo "QUEUE_CONNECTION=sync" >> .env
-          echo "SESSION_DRIVER=file" >> .env
+          docker exec laravel_app touch /var/www/html/database/database.sqlite
+          docker exec laravel_app php artisan migrate --force
 
-      # Stap 5: Stel een SQLite-database in
-      - name: Set up SQLite database
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
-          php artisan config:cache
-          php artisan migrate --force
-
-      # Stap 6: Testen uitvoeren
+      # Stap 5: Run Laravel tests
       - name: Run Laravel tests
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
-        run: php artisan test
+        run: docker exec laravel_app php artisan test
 
-      # Stap 7: Testresultaten uploaden
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: Test Results
-          path: storage/logs/laravel.log
+      # Stap 6: Stop Docker Compose
+      - name: Stop Docker Compose
+        run: docker-compose down

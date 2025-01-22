@@ -1,29 +1,23 @@
-    version: '3.8'
-    services:
-        app:
-            build:
-                context: .
-            ports:
-                - "8000:8000"
-            volumes:
-                - .:/var/www
-            environment:
-                APP_ENV: local
-                APP_KEY: base64:your-app-key
-                APP_DEBUG: 1
-                APP_URL: http://localhost
-                DB_CONNECTION: sqlite
-                DB_HOST: db
-                DB_PORT: 3306
-                DB_DATABASE: /Users/hamouchihoudaifa/Herd/HohoClone/database/database.sqlite
-                DB_USERNAME: root
-                DB_PASSWORD: root
-            depends_on:
-                - db
-        db:
-            image: mysql:8.0
-            ports:
-                - "7777:8000"
-            environment:
-                MYSQL_DATABASE: laravel
-                MYSQL_ROOT_PASSWORD: root
+version: '3.8'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: laravel-app:latest
+        container_name: laravel_app
+        ports:
+            - "8000:9000"
+        volumes:
+            - .:/var/www/html
+            - sqlite-data:/var/www/html/database
+        environment:
+            - APP_ENV=local
+            - APP_KEY=base64:dummykey
+            - DB_CONNECTION=sqlite
+            - DB_DATABASE=/Users/hamouchihoudaifa/Herd/HohoClone/database/database.sqlite
+
+
+volumes:
+    sqlite-data:
