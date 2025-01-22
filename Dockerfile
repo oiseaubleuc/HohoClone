@@ -11,12 +11,20 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Stel de werkdirectory in
 WORKDIR /var/www/html
 
-# Kopieer het project
-COPY . .
+# Kopieer alleen de bestanden die nodig zijn voor composer-install
+COPY composer.json composer.lock ./
 
 # Installeer afhankelijkheden
-RUN composer install
+RUN composer install --no-dev --optimize-autoloader
+
+# Kopieer alle bestanden naar de container
+COPY . .
+
+# Zorg voor juiste permissies
 RUN chmod -R 777 storage bootstrap/cache
+
+# Exposeer poort 8000
+EXPOSE 8000
 
 # Start Laravel server
 CMD php artisan serve --host=0.0.0.0 --port=8000
