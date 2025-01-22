@@ -25,6 +25,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 });
 
+Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
+Route::post('/posts/{post}/share', [PostController::class, 'share'])->name('posts.share');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('tweets', TweetController::class);

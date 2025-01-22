@@ -46,6 +46,11 @@
                 </div>
             @endif
         </div>
+        <div>
+            <x-input-label for="profile_picture" :value="__('Profile Picture')" />
+            <input id="profile_picture" name="profile_picture" type="file" class="mt-1 block w-full text-gray-600 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100 dark:file:bg-gray-700 dark:file:text-gray-300 dark:hover:file:bg-gray-600" />
+            <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
+        </div>
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>

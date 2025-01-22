@@ -32,9 +32,32 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
-        $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('profile_picture')) {
+            // Upload de nieuwe afbeelding
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+
+            // Verwijder de oude afbeelding indien nodig
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+
+            // Sla de nieuwe afbeeldingslocatie op in de database
+            $user->profile_picture = $path;
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profielfoto bijgewerkt!');
+    }
+
     }
 
     /**

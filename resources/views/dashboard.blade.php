@@ -1,33 +1,24 @@
 <x-app-layout>
-    <div class="container-fluid p-0">
-        <!-- Sidebar -->
-        <div class="d-flex">
-            <nav class="bg-dark text-white vh-100" style="width: 250px;">
-                <div class="p-4">
-                    <h4 class="text-white mb-4">Laravel</h4>
-                    <ul class="nav flex-column">
-                        <li class="nav-item mb-2">
-                            <a href="{{ route('dashboard') }}" class="nav-link text-white">
-                                <i class="bi bi-house-door-fill"></i> Home
-                            </a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a href="{{ route('profile.edit') }}" class="nav-link text-white">
-                                <i class="bi bi-person-fill"></i> Profile
-                            </a>
-                        </li>
-                        <li class="nav-item mt-4">
-                            <form action="{{ route('posts.store') }}" method="POST">
-                                @csrf
-                                <textarea name="content" required></textarea>
-                                <button type="submit">Post</button>
-                            </form>
-
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
+    <div class="d-flex">
+        <nav class="bg-dark text-white vh-100" style="width: 250px;">
+            <div class="p-4">
+                <h4 class="text-white mb-4">
+                    <img src="{{ asset('img/openegg.jpg') }}" alt="Logo" style="width: 50px; height: 50px;">
+                </h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a href="{{ route('dashboard') }}" class="nav-link text-white">
+                            <i class="bi bi-house-door-fill"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="{{ route('profile.edit') }}" class="nav-link text-white">
+                            <i class="bi bi-person-fill"></i> Profile
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
             <!-- Main Content -->
             <div class="w-100 p-4 bg-light">
                 @auth
@@ -36,12 +27,12 @@
                             <form action="{{ route('posts.store') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
-                                <textarea
-                                    name="content"
-                                    class="form-control"
-                                    rows="3"
-                                    placeholder="What's on your mind?"
-                                    required></textarea>
+                                    <textarea
+                                        name="content"
+                                        class="form-control"
+                                        rows="3"
+                                        placeholder="What's on your mind?"
+                                        required></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary w-100">Post</button>
                             </form>
@@ -59,6 +50,42 @@
                                     </div>
                                 </div>
                                 <p>{{ $post->content }}</p>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <!-- Like Button -->
+                                    <form action="{{ route('posts.like', $post->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            ❤️ Like ({{ $post->likes->count() }})
+                                        </button>
+                                    </form>
+
+                                    <!-- Comment Section -->
+                                    <button
+                                        class="btn btn-outline-secondary"
+                                        onclick="document.getElementById('comment-{{ $post->id }}').classList.toggle('d-none')">
+                                        💬 Comment
+                                    </button>
+                                    <div id="comment-{{ $post->id }}" class="mt-3 d-none">
+                                        <form action="{{ route('posts.comment', $post->id) }}" method="POST">
+                                            @csrf
+                                            <textarea
+                                                name="content"
+                                                class="form-control mb-2"
+                                                rows="2"
+                                                placeholder="Write a comment"
+                                                required></textarea>
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </form>
+                                    </div>
+
+                                    <!-- Share Button -->
+                                    <form action="{{ route('posts.share', $post->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-info">
+                                            🔄 Share
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     @empty
