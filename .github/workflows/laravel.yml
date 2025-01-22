@@ -8,9 +8,9 @@ on:
       - production
 
 jobs:
-  build:
+  build-dev:
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -24,13 +24,11 @@ jobs:
         run: composer install --no-dev
 
       - name: Run tests
-        if: github.ref == 'refs/heads/dev'
         run: ./vendor/bin/phpunit
 
   deploy-test:
     if: github.ref == 'refs/heads/test'
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -41,7 +39,6 @@ jobs:
   deploy-production:
     if: github.ref == 'refs/heads/production'
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
