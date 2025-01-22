@@ -1,35 +1,22 @@
-# Gebruik een officiële PHP-image
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
-# Installeer afhankelijkheden
+# Installeer benodigde extensies
 RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    libonig-dev \
-    libzip-dev \
-    zip \
-    unzip \
-    git \
-    curl \
-    sqlite3
-
-# Installeer extensies
-RUN docker-php-ext-install pdo pdo_mysql pdo_sqlite mbstring zip
+    libzip-dev zip unzip \
+    && docker-php-ext-install pdo pdo_mysql zip
 
 # Installeer Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Stel werkmap in
+# Stel de werkdirectory in
 WORKDIR /var/www/html
 
-# Kopieer alle bestanden
+# Kopieer het project
 COPY . .
 
-# Geef schrijfpermissies aan storage en bootstrap/cache
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 777 storage bootstrap/cache
+# Installeer afhankelijkheden
+RUN composer install
+RUN chmod -R 777 storage bootstrap/cache
 
-# Stel PHP in
-EXPOSE 9000
-
-# Start PHP-FPM
-CMD ["php-fpm"]
+# Start Laravel server
+CMD php artisan serve --host=0.0.0.0 --port=8000

@@ -1,40 +1,29 @@
-name: Laravel CI
+name: Laravel CI/CD
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # Stap 1: Checkout code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
-      # Stap 2: Stel Docker Compose in
-      - name: Set up Docker Compose
-        run: docker-compose up -d --build
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
 
-      # Stap 3: Wacht tot containers klaar zijn
-      - name: Wait for services
-        run: sleep 10
-
-      # Stap 4: Maak database aan en voer migraties uit
-      - name: Prepare database
+      - name: Install dependencies
         run: |
-          docker exec laravel_app touch /var/www/html/database/database.sqlite
-          docker exec laravel_app php artisan migrate --force
+          composer install
+          cp .env.example .env
+          php artisan key:generate
 
-      # Stap 5: Run Laravel tests
-      - name: Run Laravel tests
-        run: docker exec laravel_app php artisan test
-
-      # Stap 6: Stop Docker Compose
-      - name: Stop Docker Compose
-        run: docker-compose down
+      - name: Run Tests
+        run: |
+          php artisan test

@@ -1,23 +1,22 @@
 version: '3.8'
-
 services:
     app:
         build:
             context: .
             dockerfile: Dockerfile
-        image: laravel-app:latest
+        image: laravel_app
         container_name: laravel_app
-        ports:
-            - "8000:9000"
+        restart: unless-stopped
+        working_dir: /var/www/html
         volumes:
             - .:/var/www/html
-            - sqlite-data:/var/www/html/database
-        environment:
-            - APP_ENV=local
-            - APP_KEY=base64:dummykey
-            - DB_CONNECTION=sqlite
-            - DB_DATABASE=/Users/hamouchihoudaifa/Herd/HohoClone/database/database.sqlite
+        ports:
+            - 8000:8000
+        networks:
+            - laravel
 
 
-volumes:
-    sqlite-data:
+
+networks:
+    laravel:
+        driver: bridge
