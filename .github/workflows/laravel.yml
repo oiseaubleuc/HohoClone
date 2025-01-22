@@ -8,8 +8,6 @@ on:
       - test
       - production
 
-
-
 jobs:
   build-dev:
     if: github.ref == 'refs/heads/dev'
