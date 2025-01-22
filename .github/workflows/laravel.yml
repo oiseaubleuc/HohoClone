@@ -1,9 +1,11 @@
-name: Laravel CI/CD
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main
+      - dev
+      - test
+      - production
 
 jobs:
   build:
@@ -11,19 +13,38 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: 8.3
 
       - name: Install dependencies
-        run: |
-          composer install
-          cp .env.example .env
-          php artisan key:generate
+        run: composer install --no-dev
 
-      - name: Run Tests
-        run: |
-          php artisan test
+      - name: Run tests
+        if: github.ref == 'refs/heads/dev'
+        run: ./vendor/bin/phpunit
+
+  deploy-test:
+    if: github.ref == 'refs/heads/test'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to test environment
+        run: echo "Deploying to test environment"
+
+  deploy-production:
+    if: github.ref == 'refs/heads/production'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to production
+        run: echo "Deploying to production environment"
