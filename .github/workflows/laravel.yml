@@ -3,6 +3,7 @@ name: Laravel CI/CD Pipeline
 on:
   push:
     branches:
+      - main
       - dev
       - test
       - production
@@ -40,3 +41,13 @@ jobs:
 
       - name: Deploy to production
         run: echo "Deploying to production environment"
+
+  main-task:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: General build for main branch
+        run: echo "Running build for main branch"
