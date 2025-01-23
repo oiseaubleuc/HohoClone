@@ -1,38 +1,38 @@
 <?php
-
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TweetController;
-
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard
     Route::get('/dashboard', [PostController::class, 'index'])->name('dashboard');
-    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
+    // Profile
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update'); // PATCH is correct
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+        Route::get('show', [ProfileController::class, 'show'])->name('show');
+    });
+
+
+    // Posts
+    Route::prefix('posts')->name('posts.')->group(function () {
+        Route::post('/', [PostController::class, 'store'])->name('store');
+        Route::post('/{post}/like', [PostController::class, 'like'])->name('like');
+        Route::post('/{post}/comment', [PostController::class, 'comment'])->name('comment');
+        Route::post('/{post}/share', [PostController::class, 'share'])->name('share');
+    });
+
+    // Tweets
+    Route::prefix('tweets')->name('tweets.')->group(function () {
+        Route::resource('/', TweetController::class);
+    });
 });
-
-Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
-Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
-Route::post('/posts/{post}/share', [PostController::class, 'share'])->name('posts.share');
-
-
-Route::middleware(['auth'])->group(function () {
-    Route::resource('tweets', TweetController::class);
-});
-
 
 require __DIR__.'/auth.php';

@@ -14,11 +14,12 @@ WORKDIR /var/www/html
 # Kopieer alleen de bestanden die nodig zijn voor composer-install
 COPY composer.json composer.lock ./
 
+# Kopieer alle bestanden naar de container
+COPY . .
+
 # Installeer afhankelijkheden
 RUN composer install --no-dev --optimize-autoloader
 
-# Kopieer alle bestanden naar de container
-COPY . .
 
 # Zorg voor juiste permissies
 RUN chmod -R 777 storage bootstrap/cache
