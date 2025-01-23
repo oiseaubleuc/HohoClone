@@ -20,7 +20,7 @@ COPY . .
 # Installeer afhankelijkheden
 RUN composer install --no-dev --optimize-autoloader
 
-
+#run
 RUN chmod -R 777 storage bootstrap/cache
 
 EXPOSE 8000
