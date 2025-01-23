@@ -1,4 +1,4 @@
-name: Laravel composer check
+name: Laravel Check up
 
 on:
   push:
@@ -6,8 +6,9 @@ on:
       - dev
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+  build-and-test-dev:
+    name: Build and Test on dev branch
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
@@ -17,6 +18,10 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
+          tools: composer
+
+      - name: Verify PHP version in CI/CD
+        run: php -v
 
       - name: Install dependencies
         run: composer install
@@ -24,5 +29,5 @@ jobs:
       - name: Verify PHPUnit Installation
         run: ls -al ./vendor/bin/
 
-      - name: Run tests
+      - name: Run PHPUnit Tests
         run: ./vendor/bin/phpunit
