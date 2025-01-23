@@ -11,4 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Hohoclone Docker image
-      run: docker build . --file Dockerfile --tag hohclone:$(date +%s)
+      run: docker build . --file Dockerfile --tag oiseaubleuc/hohclone:latest
+    - name: push image to docker hub
+      run: | 
+       docker push oiseaubleuc/hohclone:latest
