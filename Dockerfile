@@ -21,10 +21,8 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 
-# Zorg voor juiste permissies
 RUN chmod -R 777 storage bootstrap/cache
 
-# Exposeer poort 8000
 EXPOSE 8000
 
 # Start Laravel server
