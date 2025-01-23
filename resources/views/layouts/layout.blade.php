@@ -35,7 +35,7 @@
             <i class="bi bi-bell"></i> Notifications
         </a>
         <a href="#">
-            <i class="bi bi-envelope"></i> Message
+            <i class="bi bi-envelope"></i> mess
         </a>
         <a href="#">
             <i class="bi bi-bookmark"></i> Bookmarks
