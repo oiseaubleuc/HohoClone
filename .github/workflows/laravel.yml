@@ -1,4 +1,4 @@
-name: Laravel CI/CD
+name: Laravel CI
 
 on:
   push:
@@ -6,8 +6,7 @@ on:
       - dev
 
 jobs:
-  build-dev:
-    name: Build and Test on dev branch
+  build-and-test:
     runs-on: ubuntu-22.04
 
     steps:
@@ -19,11 +18,11 @@ jobs:
         with:
           php-version: 8.3
 
-      - name: Verify PHP version
-        run: php -v
-
       - name: Install dependencies
         run: composer install --no-dev
+
+      - name: Verify PHPUnit Installation
+        run: ls -al ./vendor/bin/
 
       - name: Run tests
         run: ./vendor/bin/phpunit
