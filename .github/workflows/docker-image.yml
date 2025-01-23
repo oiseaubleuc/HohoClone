@@ -14,4 +14,6 @@ jobs:
       run: docker build . --file Dockerfile --tag oiseaubleuc/hohclone:latest
     - name: push image to docker hub
       run: | 
+       docker logi -u oiseaubleuc -p ${{secrets.docker_hub_token}}
        docker push oiseaubleuc/hohclone:latest
+       
