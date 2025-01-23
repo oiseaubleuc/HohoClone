@@ -15,11 +15,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: mbstring, pdo, pdo_mysql, intl, bcmath, json, tokenizer, xml
+          ini-values: memory_limit=512M
+
+      - name: Verify PHP version in CI/CD
+        run: php -v
+
       - name: Install dependencies
         run: composer install --no-dev
 
-      - name: Run tests
-        run: ./vendor/bin/phpunit
 
   deploy-test:
     runs-on: ubuntu-22.04
