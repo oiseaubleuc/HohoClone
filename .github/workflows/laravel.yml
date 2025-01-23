@@ -1,4 +1,4 @@
-name: Laravel Check up
+name: Laravel CI/CD
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-test-dev:
     name: Build and Test on dev branch
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -25,6 +25,13 @@ jobs:
 
       - name: Install dependencies
         run: composer install
+
+      - name: Set up test database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+          php artisan config:cache
+          php artisan migrate --database=sqlite --force
 
       - name: Verify PHPUnit Installation
         run: ls -al ./vendor/bin/
