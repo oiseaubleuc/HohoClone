@@ -27,14 +27,16 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
+            ->patch('/profile.update', [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
             ]);
+        $response->dump();
+
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+            ->assertRedirect('/profile.edit');
 
         $user->refresh();
 
@@ -67,7 +69,7 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->delete('/profile', [
+            ->delete('/profile.destroy', [
                 'password' => 'password',
             ]);
 
