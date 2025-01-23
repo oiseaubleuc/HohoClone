@@ -2,10 +2,7 @@ name: Docker Image CI
 
 on:
   workflow_dispatch:
-    - test
-    - main
-    - dev
-    - production
+
   push:
     branches:
       - main
