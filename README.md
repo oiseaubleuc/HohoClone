@@ -136,6 +136,7 @@ https://www.youtube.com/watch?v=mhw7eyTA4KQ&t=70s
 https://www.youtube.com/watch?v=G5Nk4VykcUw
 
 
+https://medium.com/@chewysalmon/laravel-docker-development-setup-an-updated-guide-72842dfe8bdf
 https://openai.com/
 
 ---
