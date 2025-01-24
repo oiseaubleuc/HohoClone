@@ -124,7 +124,7 @@
 
 <div class="hero">
     <h2>Welcome to HohoClone</h2>
-    <p>Join the conversation and connect with the world in real-time.</p>
+    <p>Ga in gesprek en verbind je met de wereld .</p>
     @if (Route::has('register'))
         <a href="{{ route('register') }}">Sign up now</a>
     @endif

@@ -1,66 +1,149 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# **HohoClone**
+GitHub: oiseaubleuc
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+HohoClone is een Laravel-gebaseerd project dat gebruik maakt van een CI/CD-pipeline en containerisatie met Docker om een efficiënte ontwikkelings- en productieomgeving te realiseren. Dit project biedt een modern, schaalbaar platform met een sterke focus op automatisering en samenwerking.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## **Inhoud**
+1. [Beschrijving](#beschrijving)
+2. [Technologieën](#technologieën)
+3. [Installatie](#installatie)
+4. [Gebruik](#gebruik)
+5. [CI/CD](#cicd)
+6. [Docker](#docker)
+7. [Bronnen](#bronnen)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## **Beschrijving**
+Het doel van HohoClone is het implementeren van een volledig functionele Laravel-toepassing met een CI/CD-pipeline. Deze pipeline zorgt ervoor dat nieuwe codewijzigingen automatisch worden getest en gedeployed, met minimale handmatige tussenkomst. Docker wordt gebruikt om een uniforme containeromgeving te waarborgen, wat schaalbaarheid en betrouwbaarheid bevordert.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## **Technologieën**
+- **Frameworks**: Laravel (PHP)
+- **Containerisatie**: Docker
+- **CI/CD**: GitHub Actions
+- **Database**: SQLite
+- **Frontend**: Bootstrap
+- **Testing**: Laravel PHPUnit Framework
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## **Installatie**
+Volg deze stappen om het project lokaal te installeren:
 
-### Premium Partners
+1. **Clone de repository**:
+    ```bash
+    git clone https://github.com/gebruikersnaam/hohoclone.git
+    cd hohoclone
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. **Installeer afhankelijkheden**:
+    ```bash
+    composer install
+    npm install
+    npm run dev
+    ```
 
-## Contributing
+3. **Database instellen**:
+    - Maak een SQLite-databasebestand:
+      ```bash
+      touch database/database.sqlite
+      ```
+    - Voer database-migraties uit:
+      ```bash
+      php artisan migrate
+      ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Start de applicatie**:
+    ```bash
+    php artisan serve
+    ```
 
-## Code of Conduct
+5. **Docker gebruiken** (optioneel):
+    ```bash
+    docker-compose up -d --build
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## **Gebruik**
+- Bezoek de applicatie op `http://localhost:8000`.
+- Voeg posts toe, like en deel posts, of reageer op bestaande berichten.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## **CI/CD**
+Dit project implementeert een CI/CD-pipeline via **GitHub Actions**:
+- **Continuous Integration (CI)**:
+    - Nieuwe codewijzigingen worden automatisch getest met PHPUnit.
+    - Database-migraties worden uitgevoerd in een geïsoleerde testomgeving.
+- **Continuous Deployment (CD)**:
+    - Succesvolle tests leiden tot automatische deployment in Docker-containers.
+    - Productie- en testomgevingen worden gescheiden beheerd.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## **Docker**
+Het project gebruikt Docker voor containerisatie:
+- De applicatie draait binnen een PHP-container met Laravel.
+- SQLite wordt gebruikt als database, die persistent is binnen de containeromgeving.
+
+### **Belangrijke Docker-commando's**:
+- **Containers opstarten**:
+    ```bash
+    docker-compose up -d --build
+    ```
+- **Database-migraties uitvoeren**:
+    ```bash
+    docker exec -it laravel_app php artisan migrate
+    ```
+- **Containers stoppen**:
+    ```bash
+    docker-compose down
+    ```
+
+---
+
+## **Bronnen**
+- [Laravel Documentatie](https://laravel.com/docs)
+- [Docker Documentatie](https://docs.docker.com/)
+- [SQLite](https://sqlite.org/docs.html)
+- [Bootstrap](https://getbootstrap.com/)
+- [PHPUnit](https://phpunit.de/)
+- https://laravel-news.com/laravel-ci-with-github-action
+
+
+Auth
+https://kinsta.com/blog/laravel-breeze/
+
+Docker
+https://www.docker.com/products/docker-desktop/
+https://www.tutorials24x7.com/laravel/getting-started-with-laravel-on-mac-using-docker-desktop-and-laravel-sail
+
+Github
+https://github.blog/enterprise-software/ci-cd/build-ci-cd-pipeline-github-actions-four-steps/
+
+Youtube video's
+https://www.youtube.com/watch?v=1aDuaPhJT8E
+https://www.youtube.com/watch?v=6mjv2tBK1jY
+https://www.youtube.com/watch?v=6jQixGjQIB0
+https://www.youtube.com/watch?v=mhw7eyTA4KQ&t=70s
+https://www.youtube.com/watch?v=G5Nk4VykcUw
+
+
+https://openai.com/
+
+---
+
+## **Contributie**
+Contributies zijn welkom! Open een pull request of maak een issue aan in de repository.
+
+---
+
+## **Licentie**
+Dit project is gelicenseerd onder de MIT-licentie. Zie [LICENSE](./LICENSE) voor meer informatie.
