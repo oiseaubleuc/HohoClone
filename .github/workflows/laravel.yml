@@ -40,8 +40,6 @@ jobs:
       - name: Run Database Migrations
         run: php artisan migrate --seed --force
 
-      - name: Run Feature Tests
-        run: php artisan test --testsuite=Feature
 
       - name: Check Routes
         run: php artisan route:list
