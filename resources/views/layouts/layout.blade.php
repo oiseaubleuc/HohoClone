@@ -1,56 +1,54 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ $title ?? config('app.name', 'Laravel') }}</title>
-
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-    <!-- Fonts & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Clone</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 </head>
-<body>
-<div class="d-flex">
+<body class="bg-gray-100 font-sans">
+<div class="flex">
     <!-- Sidebar -->
-    <div class="sidebar">
-        <a href="#" class="mb-4">
-            <i class="bi bi-twitter"></i>
-        </a>
-        <a href="{{ route('dashboard') }}" class="active">
-            <i class="bi bi-house-door-fill"></i> Home
-        </a>
-        <a href="#">
-            <i class="bi bi-search"></i> Search
-        </a>
-        <a href="#">
-            <i class="bi bi-bell"></i> Notifications
-        </a>
-        <a href="#">
-            <i class="bi bi-envelope"></i> mess
-        </a>
-        <a href="#">
-            <i class="bi bi-bookmark"></i> Bookmarks
-        </a>
-        <a href="{{ route('profile.edit') }}">
-            <i class="bi bi-people"></i> settings
-        </a>
-        <a href="{{ route('profile.show') }}">
-            <i class="bi bi-person"></i> Profile
-        </a>
-        <button class="btn btn-primary mt-4 w-100">Tweets</button>
+    <div class="w-1/4 bg-gray-900 text-white h-screen sticky top-0 p-6">
+        <ul class="space-y-6">
+            <li>
+                <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 hover:text-blue-400">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/notifications" class="flex items-center space-x-2 hover:text-blue-400">
+                    <i class="bi bi-bell"></i>
+                    <span>Notifications</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('messages') }}" class="flex items-center space-x-2 hover:text-blue-400">
+                    <i class="bi bi-envelope"></i>
+                    <span>Messages</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('profile.show') }}" class="flex items-center space-x-2 hover:text-blue-400">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+
+        </ul>
+        <button class="mt-6 bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600">
+            Tweet
+        </button>
     </div>
 
     <!-- Main Content -->
-    <div class="main-content">
+    <div class="flex-1 p-6">
         @yield('content')
     </div>
 </div>
