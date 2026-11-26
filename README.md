@@ -1,150 +1,62 @@
-# **HohoClone**
-GitHub: oiseaubleuc
+<h1 align="center">HohoClone</h1>
+<p align="center">
+  <b>Social network built with Laravel, Docker and CI/CD</b><br/>
+  A Twitter-style platform with posts, comments, likes and private messages, shipped through an automated test and Docker build pipeline.
+</p>
 
-
-
-HohoClone is een Laravel-gebaseerd project dat gebruik maakt van een CI/CD-pipeline en containerisatie met Docker om een efficiënte ontwikkelings- en productieomgeving te realiseren. Dit project biedt een modern, schaalbaar platform met een sterke focus op automatisering en samenwerking.
-
----
-
-## **Inhoud**
-1. [Beschrijving](#beschrijving)
-2. [Technologieën](#technologieën)
-3. [Installatie](#installatie)
-4. [Gebruik](#gebruik)
-5. [CI/CD](#cicd)
-6. [Docker](#docker)
-7. [Bronnen](#bronnen)
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-11-FF2D20?style=flat-square&logo=laravel&logoColor=white" />
+  <img src="https://img.shields.io/badge/PHP-8.3-777BB4?style=flat-square&logo=php&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-compose-2496ED?style=flat-square&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?style=flat-square&logo=githubactions&logoColor=white" />
+</p>
 
 ---
 
-## **Beschrijving**
-Het doel van HohoClone is het implementeren van een volledig functionele Laravel-toepassing met een CI/CD-pipeline. Deze pipeline zorgt ervoor dat nieuwe codewijzigingen automatisch worden getest en gedeployed, met minimale handmatige tussenkomst. Docker wordt gebruikt om een uniforme containeromgeving te waarborgen, wat schaalbaarheid en betrouwbaarheid bevordert.
+## Features
+
+- Registration, login and user profiles
+- Posts and tweets with comments and likes
+- Private messages between users
+- Containerized development and production environment
+
+## CI/CD
+
+| Workflow | What it does |
+|---|---|
+| `laravel.yml` | Installs dependencies and runs the test suite on every push and pull request |
+| `docker-image.yml` | Builds the Docker image to guarantee the app always ships in a working container |
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Backend | Laravel 11, PHP 8.3 |
+| Frontend | Blade, Vite |
+| Containers | Docker, Docker Compose |
+| CI/CD | GitHub Actions |
+
+## Getting started
+
+**With Docker**
+
+```bash
+git clone https://github.com/oiseaubleuc/HohoClone.git
+cd HohoClone
+docker compose up -d --build
+```
+
+**Without Docker**
+
+```bash
+composer install
+npm install && npm run build
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
 
 ---
 
-## **Technologieën**
-- **Frameworks**: Laravel (PHP)
-- **Containerisatie**: Docker
-- **CI/CD**: GitHub Actions
-- **Database**: SQLite
-- **Frontend**: Bootstrap
-- **Testing**: Laravel PHPUnit Framework
-
----
-
-## **Installatie**
-Volg deze stappen om het project lokaal te installeren:
-
-1. **Clone de repository**:
-    ```bash
-    git clone https://github.com/gebruikersnaam/hohoclone.git
-    cd hohoclone
-    ```
-
-2. **Installeer afhankelijkheden**:
-    ```bash
-    composer install
-    npm install
-    npm run dev
-    ```
-
-3. **Database instellen**:
-    - Maak een SQLite-databasebestand:
-      ```bash
-      touch database/database.sqlite
-      ```
-    - Voer database-migraties uit:
-      ```bash
-      php artisan migrate
-      ```
-
-4. **Start de applicatie**:
-    ```bash
-    php artisan serve
-    ```
-
-5. **Docker gebruiken** (optioneel):
-    ```bash
-    docker-compose up -d --build
-    ```
-
----
-
-## **Gebruik**
-- Bezoek de applicatie op `http://localhost:8000`.
-- Voeg posts toe, like en deel posts, of reageer op bestaande berichten.
-
----
-
-## **CI/CD**
-Dit project implementeert een CI/CD-pipeline via **GitHub Actions**:
-- **Continuous Integration (CI)**:
-    - Nieuwe codewijzigingen worden automatisch getest met PHPUnit.
-    - Database-migraties worden uitgevoerd in een geïsoleerde testomgeving.
-- **Continuous Deployment (CD)**:
-    - Succesvolle tests leiden tot automatische deployment in Docker-containers.
-    - Productie- en testomgevingen worden gescheiden beheerd.
-
----
-
-## **Docker**
-Het project gebruikt Docker voor containerisatie:
-- De applicatie draait binnen een PHP-container met Laravel.
-- SQLite wordt gebruikt als database, die persistent is binnen de containeromgeving.
-
-### **Belangrijke Docker-commando's**:
-- **Containers opstarten**:
-    ```bash
-    docker-compose up -d --build
-    ```
-- **Database-migraties uitvoeren**:
-    ```bash
-    docker exec -it laravel_app php artisan migrate
-    ```
-- **Containers stoppen**:
-    ```bash
-    docker-compose down
-    ```
-
----
-
-## **Bronnen**
-- [Laravel Documentatie](https://laravel.com/docs)
-- [Docker Documentatie](https://docs.docker.com/)
-- [SQLite](https://sqlite.org/docs.html)
-- [Bootstrap](https://getbootstrap.com/)
-- [PHPUnit](https://phpunit.de/)
-- https://laravel-news.com/laravel-ci-with-github-action
-
-
-Auth
-https://kinsta.com/blog/laravel-breeze/
-
-Docker
-https://www.docker.com/products/docker-desktop/
-https://www.tutorials24x7.com/laravel/getting-started-with-laravel-on-mac-using-docker-desktop-and-laravel-sail
-
-Github
-https://github.blog/enterprise-software/ci-cd/build-ci-cd-pipeline-github-actions-four-steps/
-
-Youtube video's
-https://www.youtube.com/watch?v=1aDuaPhJT8E
-https://www.youtube.com/watch?v=6mjv2tBK1jY
-https://www.youtube.com/watch?v=6jQixGjQIB0
-https://www.youtube.com/watch?v=mhw7eyTA4KQ&t=70s
-https://www.youtube.com/watch?v=G5Nk4VykcUw
-
-
-https://medium.com/@chewysalmon/laravel-docker-development-setup-an-updated-guide-72842dfe8bdf
-https://openai.com/
-
----
-
-## **Contributie**
-Contributies zijn welkom! Open een pull request of maak een issue aan in de repository.
-
----
-
-## **Licentie**
-Dit project is gelicenseerd onder de MIT-licentie. Zie [LICENSE](./LICENSE) voor meer informatie.
+<p align="center">Built by <a href="https://github.com/oiseaubleuc">Hoho</a> · Belgium</p>
